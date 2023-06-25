@@ -62,11 +62,15 @@ def main():
     time_start = time.time()
     frames_processed = 0
 
-    with open(args.trn, 'w', buffering=1) as ftrn:
+    # get the name of the trn file to write the output hypotheses
+    trn_name = args.trn.split('.')[0]
+
+    with open(trn_name + ".seconds", 'w', buffering=1) as ftrn:
         try:
             feats, utterance_name = load_parameters(args.feat)
             feats = feature_stacker(feats)
             print(feats.shape)
+            all_words = []
             # loop on feats with step 100
             max_seconds = feats.shape[0] // 99
             for i in range(max_seconds):
@@ -77,6 +81,7 @@ def main():
                     map(operator.itemgetter(1), hypothesis)
                     if x not in ("<eps>", "<s>", "</s>")
                     ]
+                all_words.extend(words)
                 words.append('({})\n'.format("second" + str(i+1)))
                 ftrn.write(' '.join(words))
                 print(' '.join(words))
@@ -91,6 +96,9 @@ def main():
             words.append('({})\n'.format("second" + str(max_seconds+1)))
             ftrn.write(' '.join(words))
             print(' '.join(words))
+            # write all words to file to be used in the topic segmentation
+            with open(trn_name + '.txt', 'w') as f:
+                f.write(' '.join(all_words))
                         
         except KeyboardInterrupt:
             print("[CTRL+C detected]")
