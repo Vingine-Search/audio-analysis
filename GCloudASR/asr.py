@@ -66,6 +66,14 @@ for word in response.results[0].alternatives[0].words:
 with open(file + '.txt', 'w') as f:
     f.write(all_transcript)
 
+# write the transcript as vtt file
+with open(file + '.vtt', 'w') as f:
+    f.write('WEBVTT\n\n')
+    for idx, second in enumerate(seconds):
+        f.write('{}.00 --> {}.00\n'.format(idx, idx + 1))
+        f.write(' '.join(second) + '\n\n')
+
+
 # write the words per second to a file
 with open(file + '.seconds', 'w') as f:
     for idx, second in enumerate(seconds):
