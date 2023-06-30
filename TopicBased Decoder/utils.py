@@ -55,7 +55,7 @@ def compare_seconds_with_topics(seconds_list, topic_list):
                     start_second = second + 1
                 else:
                     topics_segments.append((start_second, second))
-                    start_second = second
+                    start_second = second + 1
                 break
     topics_segments.append((start_second, len(seconds_list)))
     return topics_segments
