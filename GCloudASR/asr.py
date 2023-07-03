@@ -52,28 +52,37 @@ elif extension == 'flac':
         enable_word_time_offsets=True)
 elif extension == 'mp3':
     config = speech.RecognitionConfig(
-        sample_rate_hertz=44100,
+        encoding=speech.RecognitionConfig.AudioEncoding.ENCODING_UNSPECIFIED, 
+        sample_rate_hertz=16000,
         language_code='en-US',
         enable_word_time_offsets=True)
 
 # transcribe the audio
-response = client.long_running_recognize(config=config, audio=audio)
+operation = client.long_running_recognize(config=config, audio=audio)
+response = operation.result()
 
 # extract the text from the response
-all_transcript = response.results[0].alternatives[0].transcript
+all_transcript = []
+for result in response.results:
+    all_transcript.append(result.alternatives[0].transcript)
 
-# extract total number of seconds
-number_of_seconds = response.results[0].alternatives[0].words[-1].end_time.seconds
+all_transcript = ' '.join(all_transcript)
 
+
+
+total_seconds = response.results[-1].alternatives[0].words[-1].end_time.seconds
 # extract all the words per second
 # Iterate over the words in the response
-seconds = [[] for _ in range(number_of_seconds + 1)]
-for word in response.results[0].alternatives[0].words:
-    start_time = word.start_time
-    end_time = word.end_time
-    word_text = word.word
-    second = 0 if start_time.seconds == None else start_time.seconds
-    seconds[second].append(word_text)
+seconds = [[] for _ in range(total_seconds + 1)]
+for result in response.results:
+    for word in result.alternatives[0].words:
+        start_time = word.start_time
+        end_time = word.end_time
+        word_text = word.word
+        second = 0 if start_time.seconds == None else start_time.seconds
+        seconds[second].append(word_text)
+
+
 
 # write the transcript to a file
 with open(file + '.txt', 'w') as f:
