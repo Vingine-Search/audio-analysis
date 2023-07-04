@@ -32,6 +32,11 @@ class UnigramLM:
                 return (self.CountsArray[self.word2id[word]] + 1) / (np.sum(self.CountsArray) + self.vocab_size)
             return 0
         
+        def checkBackOff(self, word):
+            if word in self.vocab and self.CountsArray[self.word2id[word]] == 0:
+                return True
+            return False
+
         def getSum_z1(self):
             z_1 = self.CountsArray > 0
             z1_index = np.where(z_1 == True)[0]

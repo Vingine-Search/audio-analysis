@@ -10,7 +10,7 @@ def loadData(dataDir):
 
 # This function takes a List of sentences to preprocess them and vocabulary to extend
 # It returns a list of sentences after preprocessing and the vocabulary it found
-def preprocess(sentences):
+def preprocess(sentences, vocab):
     tokenized_sentences = []
     for i in range(len(sentences)):
         sentence = sentences[i]
@@ -21,17 +21,21 @@ def preprocess(sentences):
         # tokenize the sentence (hint: use word_tokenize())
         tokenized_senetence = word_tokenize(sentence)
         
+        # check if any word in the tokenized senetnece is not in the vocab
+        for idx, word in enumerate(tokenized_senetence):
+            if word not in vocab:
+                # if so, replace it with <unk> token
+                tokenized_senetence[idx] = "<unk>"
         # Add the start sentence <s> and end sentence </s> tokens at the beginning and end of each tokenized sentence
         tokenized_senetence.insert(0, "<s>")
         tokenized_senetence.insert(len(tokenized_senetence), "</s>")
         
-        # Add the tokens of the sentence in the predefined set vocab to collect the vocabulary
-        #for element in tokenized_senetence:
-        #    vocab.add(element)
-        
         # Add the sentence to the tokenized_sentences
         tokenized_sentences.append(tokenized_senetence) 
     
+    # add <unk> to the vocab
+    vocab.append("<unk>")
+
     return tokenized_sentences
 
 # load the vocabulary from the file
