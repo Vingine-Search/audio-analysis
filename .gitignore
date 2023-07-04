@@ -1,3 +1,14 @@
+*.mp3
+*.wav
+*.flac
+*.txt
+*.vtt
+*.sec
+*.asr
+*.bounds
+*.topics
+Pipfile
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
