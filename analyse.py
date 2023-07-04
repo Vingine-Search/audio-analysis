@@ -1,8 +1,8 @@
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
-from .topic_segmentation.predict_mod import predict
 from .whisper_asr.asr import main as asr
+from .topic_segmentation.predict_mod import predict
 from .whisper_asr.bounder import main as bound
 
 

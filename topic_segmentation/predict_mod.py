@@ -7,6 +7,7 @@ import numpy as np
 from . import utils
 from . import config
 from . import preprocess
+from . import recordgen
 from .TLT import *
 
 config.epochs = 1
