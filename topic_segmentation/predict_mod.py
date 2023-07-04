@@ -4,12 +4,10 @@ import logging
 import tempfile
 import numpy as np
 
-import audio_analysis.topic_segmentation.utils as utils
-import audio_analysis.topic_segmentation.config as config
-import audio_analysis.topic_segmentation.recordgen as recordgen
-import audio_analysis.topic_segmentation.preprocess as preprocess
-from audio_analysis.topic_segmentation.TLT import *
-
+from . import utils
+from . import config
+from . import preprocess
+from .TLT import *
 
 config.epochs = 1
 config.batch_size = 1

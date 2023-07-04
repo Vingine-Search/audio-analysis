@@ -1,9 +1,9 @@
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
-from audio_analysis.whisper_asr.asr import main as asr
-from audio_analysis.topic_segmentation.predict_mod import predict
-from audio_analysis.whisper_asr.bounder import main as bound
+from .topic_segmentation.predict_mod import predict
+from .whisper_asr.asr import main as asr
+from .whisper_asr.bounder import main as bound
 
 
 def main(video_file):

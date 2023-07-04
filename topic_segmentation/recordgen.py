@@ -1,6 +1,5 @@
 import os
-import audio_analysis.topic_segmentation.utils as utils
-import audio_analysis.topic_segmentation.config as config
+from . import utils, config
 import tensorflow as tf
 
 NEW_TOPIC_MARKER = "NEW_TOPIC_MARKER"

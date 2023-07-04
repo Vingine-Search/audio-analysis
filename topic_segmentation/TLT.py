@@ -1,7 +1,7 @@
 """Code for the Two Level Transformer creation."""
 
-import audio_analysis.topic_segmentation.config as config
-import audio_analysis.topic_segmentation.encoder as encoder
+from . import config
+from . import encoder
 import numpy as np
 import tensorflow as tf
 from tensorflow import keras
