@@ -1,9 +1,9 @@
-import os, subprocess
+import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
-from whisper_asr.asr import main as asr
-from topic_segmentation.predict_mod import predict
-from whisper_asr.bounder import main as bound
+from audio_analysis.whisper_asr.asr import main as asr
+from audio_analysis.topic_segmentation.predict_mod import predict
+from audio_analysis.whisper_asr.bounder import main as bound
 
 
 def main(video_file):
@@ -16,8 +16,7 @@ def main(video_file):
     predict(base_file + ".txt")
     # Generates base_file.bounds
     bound(base_file + ".topics", base_file + ".asr")
-
-    os.remove(audio_file)
+    # We don't need the text file after splitting it
     os.remove(base_file + ".txt")
 
 

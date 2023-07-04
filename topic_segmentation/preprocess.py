@@ -3,8 +3,8 @@ irrelevant parts to make it look more like an ASR output."""
 
 import os
 import nltk
-import topic_segmentation.utils as utils
-import topic_segmentation.config as config
+import audio_analysis.topic_segmentation.utils as utils
+import audio_analysis.topic_segmentation.config as config
 import string
 from typing import Tuple, List
 

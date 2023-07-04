@@ -4,11 +4,11 @@ import logging
 import tempfile
 import numpy as np
 
-import topic_segmentation.utils as utils
-import topic_segmentation.config as config
-import topic_segmentation.recordgen as recordgen
-import topic_segmentation.preprocess as preprocess
-from topic_segmentation.TLT import *
+import audio_analysis.topic_segmentation.utils as utils
+import audio_analysis.topic_segmentation.config as config
+import audio_analysis.topic_segmentation.recordgen as recordgen
+import audio_analysis.topic_segmentation.preprocess as preprocess
+from audio_analysis.topic_segmentation.TLT import *
 
 
 config.epochs = 1
