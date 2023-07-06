@@ -19,10 +19,13 @@ vocab = utils.load_wordvecs(os.path.join(dir_name, config.word2vec_file_path))
 logging.info("Loaded the vocab for TLT")
 weights = utils.load_model_weights(os.path.join(dir_name, config.model_store))
 logging.info("Loaded TLT model weights")
-model = TwoLevelTransformerModel(weights)
-logging.info("Constructed the TLT model")
+model = None
 
 def predict(input_file):
+    global model
+    if model == None:
+        model = TwoLevelTransformerModel(weights)
+
     output_file = os.path.splitext(input_file)[0] + ".topics"
     input_dir = tempfile.mkdtemp()
     original_input_file, input_file = input_file, os.path.join(input_dir, os.path.basename(input_file))

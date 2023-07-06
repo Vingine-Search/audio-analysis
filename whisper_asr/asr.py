@@ -1,17 +1,14 @@
 import os
 import string
-import logging
 import whisperx
 import argparse
 
 
 # 1. Transcribe with original whisper (batched)
-model = whisperx.load_model("base.en", "cuda", compute_type="float16")
-logging.info("Loaded the ASR model")
+model = None
 
 # 2. Align whisper output
-model_a, metadata = whisperx.load_align_model(language_code="en", device="cuda")
-logging.info("Loaded the aligner")
+model_a, metadata = None, None
 
 
 def norm_word(word: str):
@@ -21,6 +18,11 @@ def norm_word(word: str):
 
 
 def main(audio_file):
+    global model, model_a, metadata
+    if model == None:
+        model = whisperx.load_model("base.en", "cuda", compute_type="float16")
+        model_a, metadata = whisperx.load_align_model(language_code="en", device="cuda")
+
     audio = whisperx.load_audio(audio_file)
     result = model.transcribe(audio, batch_size=1, language="en")
 
