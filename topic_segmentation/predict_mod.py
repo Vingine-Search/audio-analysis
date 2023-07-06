@@ -21,10 +21,14 @@ weights = utils.load_model_weights(os.path.join(dir_name, config.model_store))
 logging.info("Loaded TLT model weights")
 model = None
 
+def init_topic():
+    global model
+    model = TwoLevelTransformerModel(weights)
+
 def predict(input_file):
     global model
     if model == None:
-        model = TwoLevelTransformerModel(weights)
+        init_topic()
 
     output_file = os.path.splitext(input_file)[0] + ".topics"
     input_dir = tempfile.mkdtemp()

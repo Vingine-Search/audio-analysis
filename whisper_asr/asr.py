@@ -16,12 +16,15 @@ def norm_word(word: str):
         word = word.replace(p, '')
     return word.replace(' ', '').lower()
 
+def init_asr():
+    global model, model_a, metadata
+    model = whisperx.load_model("base.en", "cuda", compute_type="float16")
+    model_a, metadata = whisperx.load_align_model(language_code="en", device="cuda")
 
 def main(audio_file):
     global model, model_a, metadata
     if model == None:
-        model = whisperx.load_model("base.en", "cuda", compute_type="float16")
-        model_a, metadata = whisperx.load_align_model(language_code="en", device="cuda")
+        init_asr()
 
     audio = whisperx.load_audio(audio_file)
     result = model.transcribe(audio, batch_size=1, language="en")
