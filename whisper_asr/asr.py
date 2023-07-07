@@ -16,6 +16,14 @@ def norm_word(word: str):
         word = word.replace(p, '')
     return word.replace(' ', '').lower()
 
+def to_vtt(s):
+    h = int(s // 3600)
+    s -= h * 3600
+    m = int(s // 60)
+    s -= m * 60
+    s, ms = int(s), int((s - int(s)) * 1000)
+    return f'{h:02}:{m:02}:{s:02}.{ms:>03}'
+
 def init_asr():
     global model, model_a, metadata
     model = whisperx.load_model("base.en", "cuda", compute_type="float16")
@@ -46,7 +54,7 @@ def main(audio_file):
     with open(noext + '.vtt', 'w') as f:
         f.write('WEBVTT\n\n')
         for text, start, end in lines:
-            f.write('{} --> {}\n'.format(start, end))
+            f.write('{} --> {}\n'.format(to_vtt(float(start)), to_vtt(float(end))))
             f.write(text.strip() + '\n\n')
 
     # write the words per second to a file
