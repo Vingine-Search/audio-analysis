@@ -265,10 +265,6 @@ class FST:
         """
         Find the best path through the decoding graph, using a given set of acoustic model scores.
 
-        The ability to specify per-utterance transition structures allows for the possibility of writing
-        pseudo-alignment algorithms, which are not yet a part of the current course, but the instructor found
-        useful for debugging the code.
-
         :param act: The acoustic model scores.
         :param ftrans: A sparse matrix representing linear probabilities of non-epsilon graph transitions.
         :param etrans: A sparse matrix representing linear probabilities of epsilon graph transitions.

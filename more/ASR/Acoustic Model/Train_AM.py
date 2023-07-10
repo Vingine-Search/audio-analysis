@@ -1,4 +1,3 @@
-from __future__ import print_function
 import numpy as np
 import cntk as C
 from cntk.train.training_session import *
@@ -69,11 +68,6 @@ def create_network(feature_dim = 40, num_classes=256, feature_mean_file=None, fe
             C.layers.For(range(num_layers), lambda: C.layers.Dense(hidden_size, activation=C.sigmoid))
         ])
 
-    def MyBLSTMLayer(hidden_size=128, num_layers=2):
-        W = C.Parameter((C.InferredDimension, hidden_size), init=C.he_normal(1.0), name='rnn_parameters')
-        def _func(operand):
-            return C.optimized_rnnstack(operand, weights=W, hidden_size=hidden_size, num_layers=num_layers, bidirectional=True, recurrent_op='lstm' )
-        return _func
 
     # Input variables denoting the features and label data
     feature_var = C.sequence.input_variable(feature_dim * (1+context[0]+context[1]))
@@ -84,11 +78,7 @@ def create_network(feature_dim = 40, num_classes=256, feature_mean_file=None, fe
     log_prior = C.log(label_prior)
 
     if (model_type=="DNN"):
-        net = MyDNNLayer(512,4)(feature_norm)
-    elif (model_type=="BLSTM"):
-        net = MyBLSTMLayer(512,2)(feature_norm)
-    else:
-        raise RuntimeError("model_type must be DNN or BLSTM")
+        net = MyDNNLayer(512,2)(feature_norm)
 
     out = C.layers.Dense(num_classes, init=C.he_normal(scale=1/3))(net)
 
@@ -108,7 +98,7 @@ def create_network(feature_dim = 40, num_classes=256, feature_mean_file=None, fe
         'ScaledLogLikelihood': ScaledLogLikelihood,
         'ce': ce,
         'pe': pe,
-        'final_hidden': net # adding last hidden layer output for future use in CTC tutorial
+        'final_hidden': net
     }
 
 def create_trainer(network, progress_writers, epoch_size):
@@ -218,9 +208,6 @@ def main():
         max_epochs = 1
     else:
         raise RuntimeError("type must be DNN or BLSTM")
-
-    #mb_size = [256] if model_type == 'DNN' else [4096]
-    #context_frames = (11, 11) if model_type == "DNN" else (0, 0)
 
     epoch_size = 1257284 # size of the corpus, 1 epoch = 1 pass thru the training data
 
